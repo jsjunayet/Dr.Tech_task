@@ -1,6 +1,5 @@
-import express from "express";
-import { connectDB } from "./config/db.js";
-const app = express();
+import app from "./app";
+import { connectDB } from "./app/config/db";
 const PORT = 5000;
 
 connectDB().then(() => {
