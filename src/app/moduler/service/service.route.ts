@@ -1,23 +1,33 @@
 import { Router } from "express";
+import { validation } from "../../middleware/validation";
 import { authorizeRole } from "../../middleware/verifyToken";
+import { serviceController } from "./service.controller";
+import {
+  serviceUpdateValidation,
+  serviceValidation,
+} from "./service.validation";
 const router = Router();
 
 router.post(
   "/",
   authorizeRole(["doctor"]),
-  validateRequest(createServiceZodSchema),
-  createServiceHandler
+  validation(serviceValidation),
+  serviceController.createService
 );
 
-router.get("/", authorizeRole(["doctor"]), getDoctorServicesHandler);
+router.get("/", authorizeRole(["doctor"]), serviceController.getDoctorService);
 
 router.patch(
   "/:id",
   authorizeRole(["doctor"]),
-  validateRequest(updateServiceZodSchema),
-  updateServiceHandler
+  validation(serviceUpdateValidation),
+  serviceController.UpdateService
 );
 
-router.delete("/:id", authorizeRole(["doctor"]), deleteServiceHandler);
+router.delete(
+  "/:id",
+  authorizeRole(["doctor"]),
+  serviceController.deletedService
+);
 
-export default router;
+export const doctorServiceRouter = router;

@@ -2,6 +2,7 @@
 import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
 import AppErrors from "../../error/AppErrors";
+import { PatientModel } from "../patient/patient.model";
 import { IDoctor } from "./doctor.interface";
 
 const doctorSchema = new Schema<IDoctor>(
@@ -15,6 +16,8 @@ const doctorSchema = new Schema<IDoctor>(
     hospitalFloor: { type: String, required: true },
     role: { type: String, default: "doctor" },
     profileImage: { type: String, default: "" },
+    services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
+    availability: [{ type: Schema.Types.ObjectId, ref: "Availability" }],
   },
   {
     timestamps: true,
@@ -22,9 +25,13 @@ const doctorSchema = new Schema<IDoctor>(
 );
 doctorSchema.pre("save", async function (next) {
   if (this.isNew) {
-    const existingUser = await DoctorModel.findOne({ email: this.email });
-    if (existingUser) {
-      throw new AppErrors(409, "This user is already registered");
+    const existingDoctor = await DoctorModel.findOne({ email: this.email });
+    if (existingDoctor) {
+      throw new AppErrors(409, "This Doctor is already registered");
+    }
+    const existingPatient = await PatientModel.findOne({ email: this.email });
+    if (existingPatient) {
+      throw new AppErrors(409, "This Patient is already registered");
     }
   }
 

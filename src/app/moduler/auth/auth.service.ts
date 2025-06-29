@@ -43,7 +43,7 @@ const authLoginService = async (email: string, password: string) => {
   const accessToken = jwt.sign(
     { userID: user?._id, role },
     process.env.JWT_SECRET as string,
-    { expiresIn: "1h" }
+    { expiresIn: "1d" }
   );
 
   return { accessToken };

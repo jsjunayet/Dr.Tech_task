@@ -1,13 +1,7 @@
-// import { Router } from "express";
-// import { validation } from "../../middleware/validation";
-// import { doctorController } from "./doctor.controller";
-// import { doctorRegistervalidation } from "./doctor.validation";
+import { Router } from "express";
+import { doctorController } from "./doctor.controller";
 
-// const router = Router();
-// router.post(
-//   "/register-doctor",
-//   validation(doctorRegistervalidation),
-//   doctorController.doctorRegister
-// );
+const router = Router();
+router.get("/", doctorController.getAllDoctor);
 
-// export const doctorRouter = router;
+export const doctorRouter = router;
