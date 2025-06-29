@@ -59,4 +59,5 @@ const updatedDoctorAppointments = async (
 export const availabilityService = {
   createAvailability,
   getDoctorAppointments,
+  updatedDoctorAppointments,
 };

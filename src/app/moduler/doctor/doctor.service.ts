@@ -1,7 +1,12 @@
+import AppErrors from "../../error/AppErrors";
 import { AppointmentModel } from "../appointment/appointment.model";
 import { DoctorModel } from "./doctor.model";
 
-const GetallDoctor = async (SearchTerm) => {
+const GetallDoctor = async (SearchTerm: {
+  hospitalName?: string;
+  specialization?: string;
+  serviceName?: string;
+}) => {
   const { hospitalName, specialization, serviceName } = SearchTerm;
   const filter: any = {};
   if (hospitalName)
@@ -19,7 +24,7 @@ const GetallDoctor = async (SearchTerm) => {
     .populate("availability");
 
   if (serviceName) {
-    doctors = doctors.filter((doc) => doc.services.length > 0);
+    doctors = doctors?.filter((doc) => doc.services?.length ?? 0 > 0);
   }
   return doctors;
 };
@@ -31,19 +36,19 @@ const getDoctorProfile = async (doctorId: string) => {
     .populate("availability");
 
   if (!doctor) {
-    return res.status(404).json({ message: "Doctor not found" });
+    throw new AppErrors(404, "Doctor not found");
   }
   const acceptedAppointments = await AppointmentModel.find({
     doctorId,
     status: "accepted",
   });
-  const remainingSlotsPerService = doctor.services.map((service: any) => {
-    const serviceAvailability = doctor.availability.filter(
+  const remainingSlotsPerService = doctor?.services?.map((service: any) => {
+    const serviceAvailability = doctor?.availability?.filter(
       (a: any) =>
         a?.serviceId && a.serviceId.toString() === service._id.toString()
     );
 
-    const remainingSlots = serviceAvailability.map((slot: any) => {
+    const remainingSlots = serviceAvailability?.map((slot: any) => {
       const bookedSlots = acceptedAppointments.filter(
         (appt) =>
           appt.serviceId.toString() === service._id.toString() &&

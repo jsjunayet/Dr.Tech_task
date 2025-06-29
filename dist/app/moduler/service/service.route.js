@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.doctorServiceRouter = void 0;
+const express_1 = require("express");
+const validation_1 = require("../../middleware/validation");
+const verifyToken_1 = require("../../middleware/verifyToken");
+const service_controller_1 = require("./service.controller");
+const service_validation_1 = require("./service.validation");
+const router = (0, express_1.Router)();
+router.post("/", (0, verifyToken_1.authorizeRole)(["doctor"]), (0, validation_1.validation)(service_validation_1.serviceValidation), service_controller_1.serviceController.createService);
+router.get("/", (0, verifyToken_1.authorizeRole)(["doctor"]), service_controller_1.serviceController.getDoctorService);
+router.patch("/:id", (0, verifyToken_1.authorizeRole)(["doctor"]), (0, validation_1.validation)(service_validation_1.serviceUpdateValidation), service_controller_1.serviceController.UpdateService);
+router.delete("/:id", (0, verifyToken_1.authorizeRole)(["doctor"]), service_controller_1.serviceController.deletedService);
+exports.doctorServiceRouter = router;

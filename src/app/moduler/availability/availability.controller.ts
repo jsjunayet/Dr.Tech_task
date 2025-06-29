@@ -1,6 +1,6 @@
 import { catchAsync } from "../../utility/catchAsync";
 import sendResponse from "../../utility/sendResponse";
-import { availabilityService } from "./availability.service";
+import { AppointmentStatus, availabilityService } from "./availability.service";
 
 const createAvailability = catchAsync(async (req, res) => {
   const body = req.body;
@@ -16,7 +16,20 @@ const createAvailability = catchAsync(async (req, res) => {
 });
 const getDoctorAppointments = catchAsync(async (req, res) => {
   const doctorId = req.user?.userID;
-  const status = req.query.status || "pending";
+  const statusQuery = req.query.status as string;
+
+  const allowedStatuses: AppointmentStatus[] = [
+    "pending",
+    "accepted",
+    "cancelled",
+    "completed",
+  ];
+
+  const status: AppointmentStatus = allowedStatuses.includes(
+    statusQuery as AppointmentStatus
+  )
+    ? (statusQuery as AppointmentStatus)
+    : "pending";
 
   const data = await availabilityService.getDoctorAppointments(
     doctorId,
@@ -25,7 +38,7 @@ const getDoctorAppointments = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     success: true,
-    message: "Retreived all doctor appoinment",
+    message: "Retrieved all doctor appointments",
     statusCode: 200,
     data: data,
   });

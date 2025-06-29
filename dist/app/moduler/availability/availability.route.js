@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.availabilityServiceRouter = void 0;
+const express_1 = require("express");
+const verifyToken_1 = require("../../middleware/verifyToken");
+const availability_controller_1 = require("./availability.controller");
+const router = (0, express_1.Router)();
+router.post("/availability", (0, verifyToken_1.authorizeRole)(["doctor"]), availability_controller_1.availabilityContoller.createAvailability);
+router.get("/appointments", (0, verifyToken_1.authorizeRole)(["doctor"]), availability_controller_1.availabilityContoller.getDoctorAppointments);
+router.patch("/appointments/:id/status", (0, verifyToken_1.authorizeRole)(["doctor"]), availability_controller_1.availabilityContoller.updatedDoctorAppointments);
+exports.availabilityServiceRouter = router;
