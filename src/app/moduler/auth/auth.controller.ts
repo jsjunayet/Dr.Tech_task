@@ -8,7 +8,7 @@ const doctorRegister = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     message: "Doctor Register is Success",
-    statusCode: 200,
+    statusCode: 201,
     data: data,
   });
 });
@@ -18,8 +18,8 @@ const patientRegister = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     success: true,
-    message: "Doctor Register is Success",
-    statusCode: 200,
+    message: "patient Register is Success",
+    statusCode: 201,
     data: data,
   });
 });

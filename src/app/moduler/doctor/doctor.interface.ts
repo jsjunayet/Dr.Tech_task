@@ -6,4 +6,6 @@ export interface IDoctor {
   specialization: string;
   hospitalName: string;
   hospitalFloor: string;
+  role: string;
+  profileImage?: string;
 }

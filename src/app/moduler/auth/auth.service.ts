@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import AppErrors from "../../error/AppErrors";
 import { IDoctor } from "../doctor/doctor.interface";
 import { DoctorModel } from "../doctor/doctor.model";
 import { PatientModel } from "../patient/patient.model";
-
+dotenv.config();
 const doctorRegisterService = async (payload: IDoctor) => {
   const result = await DoctorModel.create(payload);
   return {
@@ -14,7 +15,7 @@ const doctorRegisterService = async (payload: IDoctor) => {
 };
 
 const patientRegisterService = async (payload: IDoctor) => {
-  const result = await DoctorModel.create(payload);
+  const result = await PatientModel.create(payload);
   return {
     name: result.name,
     email: result.email,
@@ -45,7 +46,7 @@ const authLoginService = async (email: string, password: string) => {
     { expiresIn: "1h" }
   );
 
-  return { accessToken, role, user };
+  return { accessToken };
 };
 
 export const AllAuthService = {

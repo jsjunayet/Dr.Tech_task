@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 import { IPatient } from "./patient.interface";
 
@@ -13,6 +14,7 @@ const patientSchema = new Schema<IPatient>(
       enum: ["male", "female", "other"],
       required: true,
     },
+    role: { type: String, default: "patient" },
   },
   {
     timestamps: true,

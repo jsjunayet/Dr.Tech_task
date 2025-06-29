@@ -13,6 +13,8 @@ const doctorSchema = new Schema<IDoctor>(
     specialization: { type: String, required: true },
     hospitalName: { type: String, required: true },
     hospitalFloor: { type: String, required: true },
+    role: { type: String, default: "doctor" },
+    profileImage: { type: String, default: "" },
   },
   {
     timestamps: true,

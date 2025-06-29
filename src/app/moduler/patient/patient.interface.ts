@@ -5,4 +5,5 @@ export interface IPatient {
   password: string;
   age: number;
   gender: "male" | "female" | "other";
+  role: string;
 }
