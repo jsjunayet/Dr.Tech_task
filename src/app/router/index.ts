@@ -17,7 +17,7 @@ const allRouter = [
     route: doctorServiceRouter,
   },
   {
-    path: "/doctor/availability",
+    path: "/doctor",
     route: availabilityServiceRouter,
   },
   {

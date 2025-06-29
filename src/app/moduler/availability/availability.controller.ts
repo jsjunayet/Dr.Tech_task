@@ -14,6 +14,37 @@ const createAvailability = catchAsync(async (req, res) => {
     data: data,
   });
 });
+const getDoctorAppointments = catchAsync(async (req, res) => {
+  const doctorId = req.user?.userID;
+  const status = req.query.status || "pending";
+
+  const data = await availabilityService.getDoctorAppointments(
+    doctorId,
+    status
+  );
+
+  sendResponse(res, {
+    success: true,
+    message: "Retreived all doctor appoinment",
+    statusCode: 200,
+    data: data,
+  });
+});
+const updatedDoctorAppointments = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const data = await availabilityService.updatedDoctorAppointments(id, status);
+
+  sendResponse(res, {
+    success: true,
+    message: "Update Appoinment is  Success",
+    statusCode: 200,
+    data: data,
+  });
+});
 export const availabilityContoller = {
   createAvailability,
+  getDoctorAppointments,
+  updatedDoctorAppointments,
 };

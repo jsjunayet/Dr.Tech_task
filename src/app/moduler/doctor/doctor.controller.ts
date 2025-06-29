@@ -13,6 +13,18 @@ const getAllDoctor = catchAsync(async (req, res) => {
     data: data,
   });
 });
+const getDoctorProfile = catchAsync(async (req, res) => {
+  const doctorId = req.params.id;
+  const data = await doctorService.getDoctorProfile(doctorId);
+
+  sendResponse(res, {
+    success: true,
+    message: "Retrieved  Doctor Profile successfully",
+    statusCode: 201,
+    data: data,
+  });
+});
 export const doctorController = {
   getAllDoctor,
+  getDoctorProfile,
 };
